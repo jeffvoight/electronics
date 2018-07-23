@@ -11,9 +11,7 @@
             <h3>text:</h3>
             
             <p>		
-                <textarea rows="4" cols="50" name="text" >
-                    ${ledMatrix.scrollingText}
-                </textarea>
+                <textarea rows="4" cols="50" name="text" >${ledMatrix.scrollingText}</textarea>
             </p>
             
             <input type="submit" class="settingsSaveButton" value="Save"/>
