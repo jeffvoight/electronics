@@ -122,10 +122,6 @@ public class RaspberryPiRgbLedMatrix implements Serializable
     {
         this.commandLineFlags = flags;
     }
-    public void setStillImagesCommandLineFlags(String [] flags)
-    {
-        this.stillImagesCommandLineFlags = flags;
-    }
     
     public void setRpiLgbLedMatrixHome(String rpiLgbLedMatrixHome)
     {
@@ -304,14 +300,14 @@ public class RaspberryPiRgbLedMatrix implements Serializable
     /**
      * @return the setStillImagesCommandLineFlags
      */
-    public String[] getSetStillImagesCommandLineFlags() {
+    public String[] getStillImagesCommandLineFlags() {
         return stillImagesCommandLineFlags;
     }
 
     /**
      * @param setStillImagesCommandLineFlags the setStillImagesCommandLineFlags to set
      */
-    public void setSetStillImagesCommandLineFlags(String[] setStillImagesCommandLineFlags) {
+    public void setStillImagesCommandLineFlags(String[] setStillImagesCommandLineFlags) {
         this.stillImagesCommandLineFlags = setStillImagesCommandLineFlags;
     }
 }

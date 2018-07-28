@@ -120,7 +120,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
         ledMatrix.setStillImagesPath(stillImagesPath);
         
         String [] stillImagesCommandLineFlags={"-m"};
-        ledMatrix.setSetStillImagesCommandLineFlags(stillImagesCommandLineFlags);
+        ledMatrix.setStillImagesCommandLineFlagsfg(stillImagesCommandLineFlags);
 
         File stillImagesDirectory = new File(stillImagesPath);
         stillImagesDirectory.mkdirs();
