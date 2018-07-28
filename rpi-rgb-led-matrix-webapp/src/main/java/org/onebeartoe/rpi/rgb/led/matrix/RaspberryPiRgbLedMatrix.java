@@ -27,7 +27,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
     
     private String stillImagesPath;
     
-    private String [] commandLineFlags;
+    private String [] commandLineFlags, setStillImagesCommandLineFlags;
     
     private String scrollingText;
     
@@ -295,5 +295,19 @@ public class RaspberryPiRgbLedMatrix implements Serializable
             commandProcess.destroy();
             commandProcess.waitFor();
         }
+    }
+
+    /**
+     * @return the setStillImagesCommandLineFlags
+     */
+    public String[] getSetStillImagesCommandLineFlags() {
+        return setStillImagesCommandLineFlags;
+    }
+
+    /**
+     * @param setStillImagesCommandLineFlags the setStillImagesCommandLineFlags to set
+     */
+    public void setSetStillImagesCommandLineFlags(String[] setStillImagesCommandLineFlags) {
+        this.setStillImagesCommandLineFlags = setStillImagesCommandLineFlags;
     }
 }

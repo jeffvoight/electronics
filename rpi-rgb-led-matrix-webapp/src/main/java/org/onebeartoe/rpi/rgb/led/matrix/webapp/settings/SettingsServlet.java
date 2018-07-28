@@ -47,6 +47,15 @@ public class SettingsServlet extends RaspberryPiRgbLedMatrixServlet
         String[] flags = s.split("\\s+");
         ledMatrix.setCommandLineFlags(flags);
 
+        String stillImagesCommandLineFlags = request.getParameter("stillImagesCommandLineFlags");
+        if(stillImagesCommandLineFlags == null)
+        {
+            s = "";
+        }
+        String[] stillImagesCommandLineflags = stillImagesCommandLineFlags.split("\\s+");
+        ledMatrix.setStillImagesCommandLineFlags(stillImagesCommandLineflags);
+
+        
         File outfile = RaspberryPiRgbLedMatrixServlet.configFile;
         ObjectSaver.encodeObject(ledMatrix, outfile);
         

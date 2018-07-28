@@ -91,7 +91,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
             {
                 restoreFromPersistence();
             }
-            catch(Exception e)
+            catch(FileNotFoundException e)
             {
                 String message = "The ledMatix configuration was not retieved from storage.";
                 logger.log(Level.SEVERE, message, e);

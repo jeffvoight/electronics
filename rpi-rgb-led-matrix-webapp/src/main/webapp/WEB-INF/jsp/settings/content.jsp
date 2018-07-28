@@ -31,14 +31,25 @@
         </div>
             
         <div>
-            <h3>Command Line Flags</h3>
+            <h3>Scrolling text Command Line Flags</h3>
             
             <p>
                 <input name="commandLineFlags" type="text" value="${commandLineFlags}" class="jkljj"/>
             </p>
             
+        </div>
+        
+        <div>
+            <h3>Still Image Command Line Flags</h3>
+            
+            <p>
+                <input name="stillImagesCommandLineFlags" type="text" value="${stillImagesCommandLineFlags}" class="jkljj"/>
+            </p>
+            
             <input type="submit" class="settingsSaveButton" value="Save"/>
         </div>
+            
+            
         </form>
             
         <br class="clearingBreak">
