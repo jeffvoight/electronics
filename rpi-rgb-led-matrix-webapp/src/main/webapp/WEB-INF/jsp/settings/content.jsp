@@ -43,7 +43,7 @@
             <h3>Still Image Command Line Flags</h3>
             
             <p>
-                <input name="stillImagesCommandLineFlags" type="text" value="${stillImagesCommandLineFlags}" class="jkljj"/>
+                <input name="stillImagesCommandLineFlags" type="text" value="${stillImagesCommandLineFlags}" class="blah"/>
             </p>
             
             <input type="submit" class="settingsSaveButton" value="Save"/>

@@ -90,22 +90,15 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
             try
             {
                 restoreFromPersistence();
-            }
-            catch(FileNotFoundException e)
-            {
+
+            } catch(FileNotFoundException e) {
                 String message = "The ledMatix configuration was not retieved from storage.";
                 logger.log(Level.SEVERE, message, e);
             }
-            
-            if(ledMatrix == null)
-            {
-                loadDefaults();
-            }
-            
+            loadDefaults();
             adjustIfOnWindows();
-
-            // make the RaspberryPiRgbLedMatrix object available to the servlet context
-            servletContext.setAttribute(LED_MATRIX_HAT_CONTEXT_KEY, ledMatrix);
+            servletContext.setAttribute(LED_MATRIX_HAT_CONTEXT_KEY, ledMatrix);  // make the RaspberryPiRgbLedMatrix object available to the servlet context
+           
         }        
     }
 
@@ -125,6 +118,10 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
         
         String stillImagesPath = "/home/pi/rpi-rgb-led-matrix-images/stills/";        
         ledMatrix.setStillImagesPath(stillImagesPath);
+        
+        String [] stillImagesCommandLineFlags={"-m"};
+        ledMatrix.setSetStillImagesCommandLineFlags(stillImagesCommandLineFlags);
+
         File stillImagesDirectory = new File(stillImagesPath);
         stillImagesDirectory.mkdirs();
         
@@ -135,6 +132,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
         String [] commandLineFlags = {"--led-no-hardware-pulse", 
                                       "--led-gpio-mapping=adafruit-hat"};
         ledMatrix.setCommandLineFlags(commandLineFlags);
+        
     }
     
     private void restoreFromPersistence() throws FileNotFoundException

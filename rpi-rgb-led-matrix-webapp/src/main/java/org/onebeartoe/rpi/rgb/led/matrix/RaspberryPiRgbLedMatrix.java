@@ -27,7 +27,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
     
     private String stillImagesPath;
     
-    private String [] commandLineFlags, setStillImagesCommandLineFlags;
+    private String [] commandLineFlags, stillImagesCommandLineFlags;
     
     private String scrollingText;
     
@@ -122,6 +122,10 @@ public class RaspberryPiRgbLedMatrix implements Serializable
     {
         this.commandLineFlags = flags;
     }
+    public void setStillImagesCommandLineFlags(String [] flags)
+    {
+        this.stillImagesCommandLineFlags = flags;
+    }
     
     public void setRpiLgbLedMatrixHome(String rpiLgbLedMatrixHome)
     {
@@ -163,7 +167,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         
         List<String> command = new ArrayList();
         command.add(executable);
-        command.addAll( Arrays.asList(commandLineFlags) );
+        command.addAll( Arrays.asList(stillImagesCommandLineFlags) );
         command.add(LOOP_FOREVER_PARAMETER);
         command.add(gifPath);
         
@@ -203,7 +207,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         
         List<String> command = new ArrayList();
         command.add(executable);
-        logger.log(Level.INFO, "commandLineFlags.length: " + commandLineFlags.length);
+        logger.log(Level.INFO, "commandLineFlags.length: {0}", commandLineFlags.length);
         if(commandLineFlags.length > 0)
         {
             if(commandLineFlags.length == 1 && commandLineFlags[0].trim().equals("") )
@@ -301,13 +305,13 @@ public class RaspberryPiRgbLedMatrix implements Serializable
      * @return the setStillImagesCommandLineFlags
      */
     public String[] getSetStillImagesCommandLineFlags() {
-        return setStillImagesCommandLineFlags;
+        return stillImagesCommandLineFlags;
     }
 
     /**
      * @param setStillImagesCommandLineFlags the setStillImagesCommandLineFlags to set
      */
     public void setSetStillImagesCommandLineFlags(String[] setStillImagesCommandLineFlags) {
-        this.setStillImagesCommandLineFlags = setStillImagesCommandLineFlags;
+        this.stillImagesCommandLineFlags = setStillImagesCommandLineFlags;
     }
 }

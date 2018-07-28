@@ -69,9 +69,11 @@ public class SettingsServlet extends RaspberryPiRgbLedMatrixServlet
         request.setAttribute("ledMatrix", ledMatrix);
         
         List list = Arrays.asList( ledMatrix.getCommandLineFlags() );
+        List list2 = Arrays.asList(ledMatrix.getSetStillImagesCommandLineFlags());
+        String rpiRgbLedMatrix2 = String.join(" ", list2);
         String rpiRgbLedMatrixHome = String.join(" ", list);                
         request.setAttribute("commandLineFlags", rpiRgbLedMatrixHome);
-                
+        request.setAttribute("stillImagesCommandLineFlags", rpiRgbLedMatrix2);        
         ServletContext c = getServletContext();
         RequestDispatcher rd = c.getRequestDispatcher("/WEB-INF/jsp/settings/index.jsp");
         rd.forward(request, response);        
