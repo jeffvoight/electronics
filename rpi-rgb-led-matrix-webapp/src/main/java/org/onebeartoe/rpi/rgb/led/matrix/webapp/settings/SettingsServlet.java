@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,6 +23,7 @@ import org.onebeartoe.rpi.rgb.led.matrix.webapp.RaspberryPiRgbLedMatrixServlet;
 @WebServlet(name = "SettingsServet", urlPatterns = {"/settings/*"})
 public class SettingsServlet extends RaspberryPiRgbLedMatrixServlet
 {
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {      
@@ -55,9 +58,9 @@ public class SettingsServlet extends RaspberryPiRgbLedMatrixServlet
         String[] stillImagesCommandLineflags = stillImagesCommandLineFlags.split("\\s+");
         ledMatrix.setStillImagesCommandLineFlags(stillImagesCommandLineflags);
 
-        
+        logger.log(Level.WARNING, "Preparing to write object "+RaspberryPiRgbLedMatrixServlet.configFile);
         File outfile = RaspberryPiRgbLedMatrixServlet.configFile;
-        ObjectSaver.encodeObject(ledMatrix, outfile);
+        boolean encodeObject = ObjectSaver.encodeObject(ledMatrix, outfile);
         
         String saveMessages = "Settings changes were saved.";        
         request.setAttribute("saveMessages", saveMessages);
