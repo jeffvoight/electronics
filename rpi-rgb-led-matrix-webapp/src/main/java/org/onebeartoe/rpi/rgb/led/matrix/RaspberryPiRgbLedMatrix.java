@@ -22,7 +22,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
     private transient Logger logger;
     
     private transient Process commandProcess;
-    
+    private int red=255, green=255, blue=255;
     private String animationsPath;
     
     private String stillImagesPath;
@@ -128,6 +128,36 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         this.rpiRgbLedMatrixHome = rpiLgbLedMatrixHome;
     }
     
+    public void setColor(String red, String green, String blue){
+        setRed(red);
+        setGreen(green);
+        setBlue(blue);
+    }
+    
+    public void setRed(String red){
+        if(red==null){
+            this.red=255;
+        } else {
+            this.red=Integer.parseInt(red);
+        }
+    }
+    
+    public void setGreen(String green){
+        if(green==null){
+            this.green=255;
+        } else {
+            this.green=Integer.parseInt(green);
+        }
+    }
+    
+    public void setBlue(String blue){
+        if(blue==null){
+            this.blue=255;
+        } else {
+            this.blue=Integer.parseInt(blue);
+        }
+    }
+    
     public void setScrollingText(String text)
     {
         scrollingText = text;
@@ -227,6 +257,12 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         }
 
 //        command.add("-t");
+        command.add("-red");
+        command.add(""+red);
+        command.add("-green");
+        command.add(""+green);
+        command.add("-blue");
+        command.add(""+blue);
         command.add("--text");
         command.add(text);
         

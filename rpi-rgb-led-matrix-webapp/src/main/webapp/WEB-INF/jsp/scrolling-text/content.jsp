@@ -10,7 +10,10 @@
         <div class="featuredProject">
             <h3>text:</h3>
             
-            <p>		
+            <p>
+                <input type="text" name="red" />
+                <input type="text" name="green" />
+                <input type="text" name="blue" />
                 <textarea rows="4" cols="50" name="text" >${ledMatrix.scrollingText}</textarea>
             </p>
             

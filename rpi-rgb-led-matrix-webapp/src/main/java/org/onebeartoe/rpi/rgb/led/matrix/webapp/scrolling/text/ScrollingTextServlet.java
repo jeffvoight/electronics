@@ -34,9 +34,14 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String text = request.getParameter("text");
+        String red = request.getParameter("red");
+        String green = request.getParameter("green");
+        String blue = request.getParameter("blue");
+        
         String saveMessages;
         try
         {
+            ledMatrix.setColor(red, green, blue);
             ledMatrix.setScrollingText(text);        
             ledMatrix.startScrollingTextCommand(text);
             saveMessages = "The scrolling text was updated.";
