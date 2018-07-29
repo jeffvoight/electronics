@@ -215,7 +215,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
             logger.log(Level.SEVERE, message, ex);
         }
         
-        String execuableParent = rpiRgbLedMatrixHome + "/python/samples/";
+        String execuableParent = rpiRgbLedMatrixHome + "/bindings/python/samples/";
         File workingDir = new File(execuableParent);
         String executable = execuableParent + "runtext.py";
         
