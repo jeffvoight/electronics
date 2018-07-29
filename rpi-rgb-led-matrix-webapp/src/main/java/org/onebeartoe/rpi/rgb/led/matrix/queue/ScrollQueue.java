@@ -36,6 +36,12 @@ public class ScrollQueue extends Thread {
         this.ledMatrix=ledMatrix;
     }
 
+    public void clear(){
+        logger.log(Level.INFO, "Clear");
+        items.clear();
+        iterator=items.iterator();
+    }
+    
     public void run(){
         running=true;
         while(running){
@@ -70,8 +76,8 @@ public class ScrollQueue extends Thread {
     }
     
     public void addItem(ScrollItem item){
-        Logger.getLogger(ScrollQueue.class.getName()).log(Level.INFO, item.getText());
-            synchronized(items){
+        logger.log(Level.INFO, "Adding "+item.getText());
+        synchronized(items){
                 if(items.isEmpty()){
                     currentItem=item;
                 }
