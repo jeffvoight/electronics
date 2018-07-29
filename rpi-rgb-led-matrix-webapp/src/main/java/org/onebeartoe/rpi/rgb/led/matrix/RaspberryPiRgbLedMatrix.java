@@ -254,7 +254,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         command.add("-blue");
         command.add(""+decode.getBlue());
         command.add("--text");
-        command.add("\""+text+"\"");
+        command.add(text);
         
         StringBuilder debugList = new StringBuilder();
         for(String s : command)
