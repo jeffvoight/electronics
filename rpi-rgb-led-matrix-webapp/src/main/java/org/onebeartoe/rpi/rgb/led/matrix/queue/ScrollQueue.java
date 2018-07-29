@@ -79,6 +79,7 @@ public class ScrollQueue extends Thread {
         logger.log(Level.INFO, "Adding "+item.getText());
         synchronized(items){
                 items.add(item);
+                iterator=items.iterator();
             }
     }
     
