@@ -4,6 +4,7 @@ package org.onebeartoe.rpi.rgb.led.matrix.webapp.scrolling.text;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,7 +32,11 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     public ScrollingTextServlet(){
         super();
         if(scrollQueue==null){
-            this.init();
+            try {
+                this.init();
+            } catch (ServletException ex) {
+                Logger.getLogger(ScrollingTextServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             scrollQueue=new ScrollQueue(ledMatrix);
             scrollQueue.start();
         }
