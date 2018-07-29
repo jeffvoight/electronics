@@ -31,6 +31,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     public ScrollingTextServlet(){
         super();
         if(scrollQueue==null){
+            this.init();
             scrollQueue=new ScrollQueue(ledMatrix);
             scrollQueue.start();
         }

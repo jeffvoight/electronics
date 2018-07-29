@@ -43,7 +43,7 @@ public class ScrollQueue extends Thread {
                         currentItem=item;
                         if(currentItem.getActive()){
                             try {
-                                Logger.getLogger(ScrollQueue.class.getName()).log(Level.INFO, item.getText());
+
                                 ledMatrix.setColor(currentItem.getColor());
                                 ledMatrix.setScrollingText(currentItem.getText());
                                 ledMatrix.startScrollingTextCommand(currentItem.getText());
