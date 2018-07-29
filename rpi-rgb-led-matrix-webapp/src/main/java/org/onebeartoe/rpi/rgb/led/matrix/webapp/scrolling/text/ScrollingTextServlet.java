@@ -47,6 +47,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     {
         String text = request.getParameter("text");
         String color = request.getParameter("color");
+        logger.log(Level.INFO, "Color: {0}", color);
         boolean isCommand=false;
         boolean isActive=true;
         String saveMessages;

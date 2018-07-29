@@ -16,13 +16,20 @@ import java.util.logging.Logger;
  *
  * @author jeff
  */
-public class ScrollItem {
+public class ScrollItem implements Comparable {
   
     private final String text;
     private final String color;
     private final boolean isCommand;
     private boolean isActive;
     private int priority;
+    
+    public ScrollItem(){
+        this.text="None";
+        this.color="#000000";
+        this.isCommand=false;
+        this.isActive=false;
+    }
     
     public ScrollItem(String text, String color, boolean isActive, boolean isCommand){
         this.text=text;
@@ -66,6 +73,14 @@ public class ScrollItem {
     }
     
     public String getColor(){
+        if(color==null){
+            return "#000000";
+        }
         return color;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.getText().compareTo(((ScrollItem)o).getText());
     }
 }
