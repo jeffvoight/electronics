@@ -9,14 +9,16 @@
         <form action="update" method="POST">
         <div class="featuredProject">
             <h3>text:</h3>
-            
-            <p>
-                <input type="text" name="red" />
-                <input type="text" name="green" />
-                <input type="text" name="blue" />
-                <textarea rows="4" cols="50" name="text" >${ledMatrix.scrollingText}</textarea>
-            </p>
-            
+            <table>
+                
+            </table>
+            <tr>
+                <td><input type="text" name="red" value="${ledMatrix.red}"/></td>
+                <td><input type="text" name="green" value="${ledMatrix.green}"/></td>
+                <td><input type="text" name="blue" value="${ledMatrix.blue}"/></td>
+                <td><input type="text" name="text" value="${ledMatrix.scrollingText}"/></td>
+            </tr>
+        </table>
             <input type="submit" class="settingsSaveButton" value="Save"/>
         </div>
             

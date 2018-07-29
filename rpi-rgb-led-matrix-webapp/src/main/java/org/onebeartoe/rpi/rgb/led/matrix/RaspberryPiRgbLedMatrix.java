@@ -19,6 +19,27 @@ import java.util.stream.Collectors;
  */
 public class RaspberryPiRgbLedMatrix implements Serializable
 {
+
+    /**
+     * @return the red
+     */
+    public String getRed() {
+        return ""+red;
+    }
+
+    /**
+     * @return the green
+     */
+    public String getGreen() {
+        return ""+green;
+    }
+
+    /**
+     * @return the blue
+     */
+    public String getBlue() {
+        return ""+blue;
+    }
     private transient Logger logger;
     
     private transient Process commandProcess;
