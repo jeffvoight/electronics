@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.onebeartoe.io.ObjectSaver;
+import org.onebeartoe.rpi.rgb.led.matrix.queue.ScrollItem;
+import org.onebeartoe.rpi.rgb.led.matrix.queue.ScrollQueue;
 import org.onebeartoe.rpi.rgb.led.matrix.webapp.RaspberryPiRgbLedMatrixServlet;
 
 /**
@@ -24,6 +26,15 @@ import org.onebeartoe.rpi.rgb.led.matrix.webapp.RaspberryPiRgbLedMatrixServlet;
 @WebServlet(name = "ScrollingTextServet", urlPatterns = {"/scrolling-text/*"})
 public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
 {
+    private static ScrollQueue scrollQueue;
+    
+    public ScrollingTextServlet(){
+        super();
+        if(scrollQueue==null){
+            scrollQueue=new ScrollQueue(ledMatrix);
+        }
+    }
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {      
@@ -35,13 +46,13 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     {
         String text = request.getParameter("text");
         String color = request.getParameter("color");
-        
+        boolean isCommand=false;
+        boolean isActive=true;
         String saveMessages;
         try
         {
-            ledMatrix.setColor(color);
-            ledMatrix.setScrollingText(text);        
-            ledMatrix.startScrollingTextCommand(text);
+            scrollQueue.addItem(new ScrollItem(text, color, isActive, isCommand));
+            
             saveMessages = "The scrolling text was updated.";
         }
         catch(Exception e)

@@ -137,11 +137,11 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         this.color=color;
     }
     
+
     public String getColor(){
         return color;
     }
 
-    
     
     public void setScrollingText(String text)
     {
@@ -157,6 +157,9 @@ public class RaspberryPiRgbLedMatrix implements Serializable
      * Here is the original command to show an animation:
      * 
      *      ./led-image-viewer --led-no-hardware-pulse --led-gpio-mapping=adafruit-hat -l200 ../../bubbles.gif
+     * @param gifName
+     * @throws java.io.IOException
+     * @throws java.lang.InterruptedException
      */
     public void startAnimationCommand(String gifName) throws IOException, InterruptedException
     {        
@@ -251,7 +254,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         command.add("-blue");
         command.add(""+decode.getBlue());
         command.add("--text");
-        command.add(text);
+        command.add("\""+text+"\"");
         
         StringBuilder debugList = new StringBuilder();
         for(String s : command)
