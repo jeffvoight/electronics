@@ -205,15 +205,15 @@ public class RaspberryPiRgbLedMatrix implements Serializable
 
     public void startScrollingTextCommand(String text) throws IOException
     {
-        try 
-        {
-            stopCommand();
-        } 
-        catch (InterruptedException ex) 
-        {
-            String message = "The command could not be stopped: " + ex.getMessage();
-            logger.log(Level.SEVERE, message, ex);
-        }
+//        try 
+//        {
+//            stopCommand();
+//        } 
+//        catch (InterruptedException ex) 
+//        {
+//            String message = "The command could not be stopped: " + ex.getMessage();
+//            logger.log(Level.SEVERE, message, ex);
+//        }
         
         String execuableParent = rpiRgbLedMatrixHome + "/bindings/python/samples/";
         File workingDir = new File(execuableParent);
@@ -264,15 +264,18 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         logger.log(Level.INFO, "command list: >{0}<", debugList.toString());
         
         logger.log(Level.INFO, "starting scrolling text process...");
-        ProcessBuilder builder = new ProcessBuilder(command);
+        String[] commands=new String[command.size()];
+        Process exec = Runtime.getRuntime().exec( command.toArray(commands));
+        exec.waitFor();
+        //ProcessBuilder builder = new ProcessBuilder(command);
         
         // use the directory() method to cd to the runtext.py location; needed becuase the 
         // that code currently uses a relative path the font file.
-        builder.directory(workingDir);
+        //builder.directory(workingDir);
         
-        commandProcess = builder.start();
+        //commandProcess = builder.start();
         
-        logger.log(Level.INFO, "after process start, builder directory is: {0}", builder.directory());
+        //logger.log(Level.INFO, "after process start, builder directory is: {0}", builder.directory());
         
 //        InputStream errorStream = commandProcess.getErrorStream();
 //        InputStreamReader errorIsr = new InputStreamReader(errorStream);
