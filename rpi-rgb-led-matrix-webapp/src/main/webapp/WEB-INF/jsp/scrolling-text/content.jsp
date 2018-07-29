@@ -13,9 +13,7 @@
                 
             </table>
             <tr>
-                <td><input type="text" name="red" value="${ledMatrix.red}"/></td>
-                <td><input type="text" name="green" value="${ledMatrix.green}"/></td>
-                <td><input type="text" name="blue" value="${ledMatrix.blue}"/></td>
+                <td><input type="color" name="color" value="${ledMatrix.color}"/></td>                
                 <td><input type="text" name="text" value="${ledMatrix.scrollingText}"/></td>
             </tr>
         </table>

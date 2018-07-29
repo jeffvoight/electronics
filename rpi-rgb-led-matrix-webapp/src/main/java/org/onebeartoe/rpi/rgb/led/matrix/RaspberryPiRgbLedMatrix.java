@@ -1,6 +1,7 @@
 
 package org.onebeartoe.rpi.rgb.led.matrix;
 
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -20,30 +21,13 @@ import java.util.stream.Collectors;
 public class RaspberryPiRgbLedMatrix implements Serializable
 {
 
-    /**
-     * @return the red
-     */
-    public String getRed() {
-        return ""+red;
-    }
 
-    /**
-     * @return the green
-     */
-    public String getGreen() {
-        return ""+green;
-    }
-
-    /**
-     * @return the blue
-     */
-    public String getBlue() {
-        return ""+blue;
-    }
     private transient Logger logger;
     
     private transient Process commandProcess;
-    private int red=255, green=255, blue=255;
+    
+    private String color;
+    
     private String animationsPath;
     
     private String stillImagesPath;
@@ -149,35 +133,15 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         this.rpiRgbLedMatrixHome = rpiLgbLedMatrixHome;
     }
     
-    public void setColor(String red, String green, String blue){
-        setRed(red);
-        setGreen(green);
-        setBlue(blue);
+    public void setColor(String color){
+        this.color=color;
     }
     
-    public void setRed(String red){
-        if(red==null){
-            this.red=255;
-        } else {
-            this.red=Integer.parseInt(red);
-        }
+    public String getColor(){
+        return color;
     }
+
     
-    public void setGreen(String green){
-        if(green==null){
-            this.green=255;
-        } else {
-            this.green=Integer.parseInt(green);
-        }
-    }
-    
-    public void setBlue(String blue){
-        if(blue==null){
-            this.blue=255;
-        } else {
-            this.blue=Integer.parseInt(blue);
-        }
-    }
     
     public void setScrollingText(String text)
     {
@@ -244,7 +208,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         } 
         catch (InterruptedException ex) 
         {
-            String message = "The comamnd could not be stopped: " + ex.getMessage();
+            String message = "The command could not be stopped: " + ex.getMessage();
             logger.log(Level.SEVERE, message, ex);
         }
         
@@ -277,22 +241,24 @@ public class RaspberryPiRgbLedMatrix implements Serializable
             logger.log(Level.INFO, "no commandline flags are present");
         }
 
+        Color decode = Color.decode(color);
+        
 //        command.add("-t");
         command.add("-red");
-        command.add(""+red);
+        command.add(""+decode.getRed());
         command.add("-green");
-        command.add(""+green);
+        command.add(""+decode.getGreen());
         command.add("-blue");
-        command.add(""+blue);
+        command.add(""+decode.getBlue());
         command.add("--text");
         command.add(text);
         
         StringBuilder debugList = new StringBuilder();
         for(String s : command)
         {
-            debugList.append(s + " ");
+            debugList.append(s).append(" ");
         }
-        logger.log(Level.INFO, "command list: >" + debugList.toString() + "<");
+        logger.log(Level.INFO, "command list: >{0}<", debugList.toString());
         
         logger.log(Level.INFO, "starting scrolling text process...");
         ProcessBuilder builder = new ProcessBuilder(command);
@@ -303,7 +269,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         
         commandProcess = builder.start();
         
-        logger.log(Level.INFO, "after process start, builder directory is: " + builder.directory() );
+        logger.log(Level.INFO, "after process start, builder directory is: {0}", builder.directory());
         
 //        InputStream errorStream = commandProcess.getErrorStream();
 //        InputStreamReader errorIsr = new InputStreamReader(errorStream);
@@ -336,7 +302,7 @@ public class RaspberryPiRgbLedMatrix implements Serializable
                 
         startLedImageViewerCommand(imagePath);
         
-        logger.log(Level.INFO, "still image process wait over for: " + imagePath);        
+        logger.log(Level.INFO, "still image process wait over for: {0}", imagePath);        
     }
     
     /**
