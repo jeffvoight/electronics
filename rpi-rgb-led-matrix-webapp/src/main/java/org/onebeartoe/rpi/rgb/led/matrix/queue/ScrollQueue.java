@@ -27,11 +27,14 @@ public class ScrollQueue extends Thread {
     private boolean running=false;
     private RaspberryPiRgbLedMatrix ledMatrix;
     
-    public ScrollQueue(RaspberryPiRgbLedMatrix ledMatrix){
-        this.ledMatrix=ledMatrix;
+    public ScrollQueue(){
         iterator=items.iterator();
     }
     
+    public void setLedMatrix(RaspberryPiRgbLedMatrix ledMatrix){
+        this.ledMatrix=ledMatrix;
+    }
+
     public void run(){
         running=true;
         while(running){
@@ -49,6 +52,8 @@ public class ScrollQueue extends Thread {
                                 ledMatrix.startScrollingTextCommand(currentItem.getText());
                             } catch (IOException ex) {
                                 Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+                            } catch (NullPointerException npe){
+                                Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
                             }
                         }
                     }
