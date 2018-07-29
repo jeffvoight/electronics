@@ -78,14 +78,7 @@ public class ScrollQueue extends Thread {
     public void addItem(ScrollItem item){
         logger.log(Level.INFO, "Adding "+item.getText());
         synchronized(items){
-                if(items.isEmpty()){
-                    currentItem=item;
-                }
-                if(items.contains(item)){
-                    items.remove(item);
-                }
                 items.add(item);
-                iterator=items.iterator();
             }
     }
     
@@ -109,7 +102,7 @@ public class ScrollQueue extends Thread {
             }
         
             synchronized(items){
-            return iterator.next();
+                return iterator.next();
             }
         
     }
