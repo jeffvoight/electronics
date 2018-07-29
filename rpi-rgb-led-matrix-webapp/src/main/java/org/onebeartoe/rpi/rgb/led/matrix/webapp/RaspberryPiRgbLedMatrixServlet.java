@@ -119,7 +119,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
         String stillImagesPath = "/home/pi/rpi-rgb-led-matrix-images/stills/";        
         ledMatrix.setStillImagesPath(stillImagesPath);
         
-        String [] stillImagesCommandLineFlags={"-m"};
+        String [] stillImagesCommandLineFlags={"--led-cols=64", "--led-chain=2", "--led-slowdown-gpio=2", "--led-gpio-mapping=adafruit-hat"};
         ledMatrix.setStillImagesCommandLineFlags(stillImagesCommandLineFlags);
 
         File stillImagesDirectory = new File(stillImagesPath);
@@ -129,8 +129,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet
         //      https://www.adafruit.com/products/1484
         //      https://www.adafruit.com/products/2345
         //
-        String [] commandLineFlags = {"--led-no-hardware-pulse", 
-                                      "--led-gpio-mapping=adafruit-hat"};
+        String [] commandLineFlags = {"--led-cols=64", "--led-chain=2", "--led-slowdown-gpio=2", "--led-gpio-mapping=adafruit-hat"};
         ledMatrix.setCommandLineFlags(commandLineFlags);
         
     }
