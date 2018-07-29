@@ -47,27 +47,28 @@ public class ScrollQueue extends Thread {
         running = true;
         while (running) {
             yield();
-            synchronized (items) {
-                if (!items.isEmpty()) {
-                    ScrollItem item = nextItem();
-                    if (item != null) {
-                        currentItem = item;
-                        if (currentItem.getActive()) {
-                            try {
-                                logger.log(Level.INFO, "Current Item Processing " + currentItem.getText());
-                                ledMatrix.setColor(currentItem.getColor());
-                                ledMatrix.setScrollingText(currentItem.getText());
-                                ledMatrix.startScrollingTextCommand(currentItem.getText());
-                            } catch (IOException ex) {
-                                Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
-                            } catch (NullPointerException npe) {
-                                Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
-                            }
-                        }
-                    }
+            ScrollItem item;
 
+            synchronized (items) {
+                item = nextItem();
+            }
+
+            if (item != null) {
+                currentItem = item;
+                if (currentItem.getActive()) {
+                    try {
+                        logger.log(Level.INFO, "Current Item Processing " + currentItem.getText());
+                        ledMatrix.setColor(currentItem.getColor());
+                        ledMatrix.setScrollingText(currentItem.getText());
+                        ledMatrix.startScrollingTextCommand(currentItem.getText());
+                    } catch (IOException ex) {
+                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (NullPointerException npe) {
+                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
+                    }
                 }
             }
+
         }
     }
 
