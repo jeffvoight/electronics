@@ -32,14 +32,19 @@ public class ScrollQueue extends Thread {
     public void run(){
         running=true;
         while(running){
-            ScrollItem item=nextItem();
-            if(item.getActive()){
-                try {
-                    ledMatrix.setColor(item.getColor());
-                    ledMatrix.setScrollingText(item.getText());
-                    ledMatrix.startScrollingTextCommand(item.getText());
-                } catch (IOException ex) {
-                    Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+            yield();
+            if(!items.isEmpty()){
+                ScrollItem item=nextItem();
+                currentItem=item;
+                if(currentItem.getActive()){
+                    try {
+                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.INFO, item.getText());
+                        ledMatrix.setColor(currentItem.getColor());
+                        ledMatrix.setScrollingText(currentItem.getText());
+                        ledMatrix.startScrollingTextCommand(currentItem.getText());
+                    } catch (IOException ex) {
+                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
@@ -51,6 +56,8 @@ public class ScrollQueue extends Thread {
     }
     
     public void addItem(ScrollItem item){
+        Logger.getLogger(ScrollQueue.class.getName()).log(Level.INFO, item.getText());
+
         if(items.isEmpty()){
             currentItem=item;
         }
