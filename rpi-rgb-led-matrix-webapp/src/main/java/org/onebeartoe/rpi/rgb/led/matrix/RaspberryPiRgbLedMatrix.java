@@ -266,17 +266,18 @@ public class RaspberryPiRgbLedMatrix implements Serializable
         logger.log(Level.INFO, "starting scrolling text process...");
         String[] commands=new String[command.size()];
         Process exec = Runtime.getRuntime().exec( command.toArray(commands));
-        exec.waitFor();
-        //ProcessBuilder builder = new ProcessBuilder(command);
-        
-        // use the directory() method to cd to the runtext.py location; needed becuase the 
-        // that code currently uses a relative path the font file.
-        //builder.directory(workingDir);
-        
-        //commandProcess = builder.start();
-        
-        //logger.log(Level.INFO, "after process start, builder directory is: {0}", builder.directory());
-        
+        try {
+            exec.waitFor();
+            //ProcessBuilder builder = new ProcessBuilder(command);
+            
+            // use the directory() method to cd to the runtext.py location; needed becuase the
+            // that code currently uses a relative path the font file.
+            //builder.directory(workingDir);
+            
+            //commandProcess = builder.start();
+            
+            //logger.log(Level.INFO, "after process start, builder directory is: {0}", builder.directory());
+            
 //        InputStream errorStream = commandProcess.getErrorStream();
 //        InputStreamReader errorIsr = new InputStreamReader(errorStream);
 //        final BufferedReader stderrReader = new BufferedReader(errorIsr);
@@ -300,6 +301,9 @@ public class RaspberryPiRgbLedMatrix implements Serializable
 //        }
 //        stdoutBr.close();
 //        System.out.println("</stdout>");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(RaspberryPiRgbLedMatrix.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void startShowStillImageCommand(String stillImageName) throws IOException
