@@ -26,7 +26,8 @@ public class ScrollQueue extends Thread {
     private Iterator<ScrollItem> iterator;
     private boolean running=false;
     private RaspberryPiRgbLedMatrix ledMatrix;
-    
+    Logger logger=Logger.getLogger("ScrollQueue");
+
     public ScrollQueue(){
         iterator=items.iterator();
     }
@@ -46,7 +47,7 @@ public class ScrollQueue extends Thread {
                         currentItem=item;
                         if(currentItem.getActive()){
                             try {
-
+                                logger.log(Level.INFO, "Current Item Processing "+currentItem.getText());
                                 ledMatrix.setColor(currentItem.getColor());
                                 ledMatrix.setScrollingText(currentItem.getText());
                                 ledMatrix.startScrollingTextCommand(currentItem.getText());
@@ -91,11 +92,13 @@ public class ScrollQueue extends Thread {
     }
     
     public ScrollItem nextItem(){
+        logger.log(Level.INFO, "Next! ************");
             if(items.isEmpty()){
                 return null;
             }
 
             if(!iterator.hasNext()){ // The end of the iterator is here. Start over.
+                logger.log(Level.INFO, "Start over!");
                 iterator=items.iterator();
             }
         
