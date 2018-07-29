@@ -54,12 +54,13 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
         boolean isActive=true;
         String saveMessages;
         scrollQueue.setLedMatrix(ledMatrix);
+        scrollQueue.clear();
         try
         {
             scrollQueue.addItem(new ScrollItem(text, color, isActive, isCommand));
             scrollQueue.addItem(new ScrollItem("sample1", "#ff0000", true, false));
             scrollQueue.addItem(new ScrollItem("sample2    extended version.", "#00ffff", true, false));
-            scrollQueue.addItem(new ScrollItem("sample3", "#ff00ff", true, false));
+            scrollQueue.addItem(new ScrollItem("sample3", "#ff00ff", true, true));
             saveMessages = "The scrolling text was updated.";
         }
         catch(Exception e)
