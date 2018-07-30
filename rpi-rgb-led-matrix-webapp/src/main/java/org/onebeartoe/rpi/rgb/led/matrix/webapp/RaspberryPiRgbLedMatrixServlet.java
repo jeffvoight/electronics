@@ -83,7 +83,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
         configDir.mkdirs();
         configFile = new File(configDir, "led-matrix-webapp.xml");
         queueFile = new File(configDir, "scrollQueue.xml");
-        if (ledMatrix == null||scrollQueue==null) {
+        if (ledMatrix == null || scrollQueue == null) {
             initializeLedMatix();
         }
     }
@@ -146,7 +146,8 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
             }
         }
         logger.log(Level.INFO, "Starting scrollqueue.");
-        scrollQueue.start();        // set up the default image/animation paths
-
+        if (!scrollQueue.isAlive()) {
+            scrollQueue.start();        // set up the default image/animation paths
+        }
     }
 }
