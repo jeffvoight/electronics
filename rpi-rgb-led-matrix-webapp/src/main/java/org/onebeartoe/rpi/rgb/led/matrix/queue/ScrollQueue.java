@@ -22,7 +22,6 @@ public class ScrollQueue extends Thread {
 
     private final int MAX_ENTRIES = 50;
     private final static List<ScrollItem> items = Collections.synchronizedList(new ArrayList<>());
-    private ScrollItem item = new ScrollItem();
     private ScrollItem currentItem;
     private Iterator<ScrollItem> iterator;
     private boolean running = false;
@@ -30,6 +29,7 @@ public class ScrollQueue extends Thread {
     Logger logger = Logger.getLogger("ScrollQueue");
 
     public ScrollQueue() {
+        items.clear();
         iterator = items.iterator();
     }
 
@@ -46,7 +46,6 @@ public class ScrollQueue extends Thread {
     public void run() {
         running = true;
         while (running) {
-            yield();
             ScrollItem item;
 
             synchronized (items) {
@@ -99,11 +98,11 @@ public class ScrollQueue extends Thread {
     }
 
     public ScrollItem nextItem() {
-        logger.log(Level.INFO, "Next! ************");
         synchronized (items) {
             if (items.isEmpty()) {
                 return null;
             }
+            logger.log(Level.INFO, "Next!");
 
             if (!iterator.hasNext()) { // The end of the iterator is here. Start over.
                 logger.log(Level.INFO, "Start over!");

@@ -57,18 +57,6 @@ public class ScrollItem implements Comparable {
     }
     
     public String getText(){
-//        if(isCommand){
-//            try {
-//                Process exec = Runtime.getRuntime().exec(text);
-//                BufferedReader buff=new BufferedReader(new InputStreamReader(exec.getInputStream()));
-//                int waitFor = exec.waitFor();
-//                if(buff.ready()){
-//                    return buff.readLine();
-//                }
-//            } catch (IOException | InterruptedException ex) {
-//                Logger.getLogger(ScrollItem.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
         return text;
     }
     
