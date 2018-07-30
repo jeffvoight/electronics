@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.onebeartoe.io.ObjectRetriever;
 import org.onebeartoe.rpi.rgb.led.matrix.RaspberryPiRgbLedMatrix;
+import org.onebeartoe.rpi.rgb.led.matrix.queue.ScrollItem;
 import org.onebeartoe.rpi.rgb.led.matrix.queue.ScrollQueue;
 import org.onebeartoe.system.OperatingSystem;
 
@@ -137,11 +138,12 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
         Object second = null;
         try {
             second = ObjectRetriever.decodeObject(queueFile);
-            scrollQueue = (ScrollQueue) second;
+            scrollQueue = new ScrollQueue();
+
+            scrollQueue.addAll((ScrollItem[]) second);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, null, ex);
             if (scrollQueue == null) {
-                scrollQueue = new ScrollQueue();
                 scrollQueue.start();
             }
         }
