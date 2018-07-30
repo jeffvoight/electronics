@@ -27,15 +27,10 @@ import org.onebeartoe.rpi.rgb.led.matrix.webapp.RaspberryPiRgbLedMatrixServlet;
 @WebServlet(name = "ScrollingTextServet", urlPatterns = {"/scrolling-text/*"})
 public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
 {
-    private static ScrollQueue scrollQueue;
     
     public ScrollingTextServlet(){
         super();
-        if(scrollQueue==null){
- 
-            scrollQueue=new ScrollQueue();
-            scrollQueue.start();
-        }
+        
     }
     
     @Override
@@ -50,10 +45,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
         String[] texts=request.getParameterValues("text");
         String[] colors=request.getParameterValues("color");
         String[] actives=request.getParameterValues("active");
-        //String text = request.getParameter("text");
-        //String color = request.getParameter("color");
-        //boolean isCommand=false;
-        //boolean isActive=true;
+       
         String saveMessages;
         scrollQueue.setLedMatrix(ledMatrix);
         scrollQueue.clear();
@@ -78,7 +70,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
         // save the updated scrolling text configuration
         File outfile = RaspberryPiRgbLedMatrixServlet.configFile;
         ObjectSaver.encodeObject(ledMatrix, outfile);
-        //ObjectSaver.encodeObject(scrollQueue, outfile);
+        ObjectSaver.encodeObject(scrollQueue, RaspberryPiRgbLedMatrixServlet.queueFile);
         
         request.setAttribute("responseMessages", saveMessages);
         doResponse(request, response);

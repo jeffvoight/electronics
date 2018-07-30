@@ -5,20 +5,24 @@
  */
 package org.onebeartoe.rpi.rgb.led.matrix.queue;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.onebeartoe.io.ObjectRetriever;
 import org.onebeartoe.rpi.rgb.led.matrix.RaspberryPiRgbLedMatrix;
 
 /**
  *
  * @author jeff
  */
-public class ScrollQueue extends Thread {
+public class ScrollQueue extends Thread implements Serializable {
 
     private final int MAX_ENTRIES = 50;
     private final static List<ScrollItem> items = Collections.synchronizedList(new ArrayList<>());
@@ -56,7 +60,7 @@ public class ScrollQueue extends Thread {
                 currentItem = item;
                 if (currentItem.getActive()) {
                     try {
-                        logger.log(Level.INFO, "Current Item Processing " + currentItem.getText());
+                        logger.log(Level.INFO, "Current Item Processing {0}", currentItem.getText());
                         ledMatrix.setColor(currentItem.getColor());
                         ledMatrix.setScrollingText(currentItem.getText());
                         ledMatrix.startScrollingTextCommand(currentItem.getText());
@@ -82,7 +86,7 @@ public class ScrollQueue extends Thread {
     }
 
     public void addItem(ScrollItem item) {
-        logger.log(Level.INFO, "Adding " + item.getText());
+        logger.log(Level.INFO, "Adding {0}", item.getText());
         synchronized (items) {
             items.add(item);
             iterator = items.iterator();
@@ -94,7 +98,6 @@ public class ScrollQueue extends Thread {
             items.remove(item);
             iterator = items.iterator();
         }
-
     }
 
     public ScrollItem nextItem() {
@@ -103,19 +106,16 @@ public class ScrollQueue extends Thread {
                 return null;
             }
             logger.log(Level.INFO, "Next!");
-
             if (!iterator.hasNext()) { // The end of the iterator is here. Start over.
                 logger.log(Level.INFO, "Start over!");
                 iterator = items.iterator();
             }
-
             return iterator.next();
         }
-
     }
 
-    public List<ScrollItem> getItems() {
-        return items;
+    public ScrollItem[] getItems() {
+        ScrollItem[] returnItems = new ScrollItem[items.size()];
+        return items.toArray(returnItems);
     }
-
 }
