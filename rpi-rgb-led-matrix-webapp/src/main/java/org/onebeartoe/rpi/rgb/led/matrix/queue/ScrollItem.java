@@ -26,7 +26,7 @@ public class ScrollItem implements Comparable {
     
     public ScrollItem(){
         this.text="None";
-        this.color="#000000";
+        this.color="#ff00ff";
         this.isCommand=false;
         this.isActive=false;
     }
@@ -57,18 +57,18 @@ public class ScrollItem implements Comparable {
     }
     
     public String getText(){
-        if(isCommand){
-            try {
-                Process exec = Runtime.getRuntime().exec(text);
-                BufferedReader buff=new BufferedReader(new InputStreamReader(exec.getInputStream()));
-                int waitFor = exec.waitFor();
-                if(buff.ready()){
-                    return buff.readLine();
-                }
-            } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(ScrollItem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+//        if(isCommand){
+//            try {
+//                Process exec = Runtime.getRuntime().exec(text);
+//                BufferedReader buff=new BufferedReader(new InputStreamReader(exec.getInputStream()));
+//                int waitFor = exec.waitFor();
+//                if(buff.ready()){
+//                    return buff.readLine();
+//                }
+//            } catch (IOException | InterruptedException ex) {
+//                Logger.getLogger(ScrollItem.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
         return text;
     }
     

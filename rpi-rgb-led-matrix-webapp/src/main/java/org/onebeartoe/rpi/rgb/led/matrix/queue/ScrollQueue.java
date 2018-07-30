@@ -67,6 +67,12 @@ public class ScrollQueue extends Thread {
                         Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
                     }
                 }
+            } else {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
         }

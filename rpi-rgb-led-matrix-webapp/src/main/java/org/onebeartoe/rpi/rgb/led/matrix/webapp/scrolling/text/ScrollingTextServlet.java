@@ -47,20 +47,22 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String text = request.getParameter("text");
-        String color = request.getParameter("color");
-        logger.log(Level.INFO, "Color: {0}", color);
-        boolean isCommand=false;
-        boolean isActive=true;
+        String[] texts=request.getParameterValues("text");
+        String[] colors=request.getParameterValues("color");
+        String[] actives=request.getParameterValues("active");
+        //String text = request.getParameter("text");
+        //String color = request.getParameter("color");
+        //boolean isCommand=false;
+        //boolean isActive=true;
         String saveMessages;
         scrollQueue.setLedMatrix(ledMatrix);
         scrollQueue.clear();
-        try
-        {
-            scrollQueue.addItem(new ScrollItem(text, color, isActive, isCommand));
-            scrollQueue.addItem(new ScrollItem("sample1", "#ff0000", true, false));
-            scrollQueue.addItem(new ScrollItem("sample2    extended version.", "#00ffff", true, false));
-            scrollQueue.addItem(new ScrollItem("sample3", "#ff00ff", true, true));
+        try {
+            for(int i=0;i<texts.length;i++){
+                if(!texts[i].trim().equals("")){
+                    scrollQueue.addItem(new ScrollItem(texts[i], colors[i], actives[i].equals("checked"), false));
+                }
+            }
             saveMessages = "The scrolling text was updated.";
         }
         catch(Exception e)
@@ -76,6 +78,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
         // save the updated scrolling text configuration
         File outfile = RaspberryPiRgbLedMatrixServlet.configFile;
         ObjectSaver.encodeObject(ledMatrix, outfile);
+        //ObjectSaver.encodeObject(scrollQueue, outfile);
         
         request.setAttribute("responseMessages", saveMessages);
         doResponse(request, response);
@@ -84,7 +87,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     private void doResponse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         request.setAttribute("ledMatrix", ledMatrix);
-                
+        //request.setAttribute("scrollQueue", scrollQueue);
         ServletContext c = getServletContext();
         RequestDispatcher rd = c.getRequestDispatcher("/WEB-INF/jsp/scrolling-text/index.jsp");
         rd.forward(request, response);        
