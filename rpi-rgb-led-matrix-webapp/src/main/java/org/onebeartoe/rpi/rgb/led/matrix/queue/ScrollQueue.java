@@ -33,7 +33,6 @@ public class ScrollQueue extends Thread implements Serializable {
     Logger logger = Logger.getLogger("ScrollQueue");
 
     public ScrollQueue() {
-        items.clear();
         iterator = items.iterator();
     }
 
@@ -72,6 +71,7 @@ public class ScrollQueue extends Thread implements Serializable {
                 }
             } else {
                 try {
+                    logger.log(Level.INFO, "Sleeping for 1 second.");
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);

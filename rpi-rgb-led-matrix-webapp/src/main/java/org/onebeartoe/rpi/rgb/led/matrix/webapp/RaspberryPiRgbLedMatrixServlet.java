@@ -27,7 +27,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
 
     public static final String LED_MATRIX_HAT_CONTEXT_KEY = "LED_MATRIX_HAT_CONTEXT_KEY";
 
-    protected RaspberryPiRgbLedMatrix ledMatrix;
+    protected static RaspberryPiRgbLedMatrix ledMatrix;
     protected static ScrollQueue scrollQueue;
 
     String configDirPath = os.currentUserHome() + "/.onebeartoe/rpi-rgb-led-matrix-webapp/";
@@ -83,19 +83,22 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
         configDir.mkdirs();
         configFile = new File(configDir, "led-matrix-webapp.xml");
         queueFile = new File(configDir, "scrollQueue.xml");
-        initializeLedMatix();
+        if (ledMatrix == null||scrollQueue==null) {
+            initializeLedMatix();
+        }
     }
 
     private void initializeLedMatix() {
         ServletContext servletContext = getServletContext();
         ledMatrix = (RaspberryPiRgbLedMatrix) servletContext.getAttribute(LED_MATRIX_HAT_CONTEXT_KEY);
         if (ledMatrix == null) { // this is the first time the application loads this servlet
-
-            restoreFromPersistence();
+            restoreLedMatrixFromPersistence();
             loadDefaults();
             adjustIfOnWindows();
             servletContext.setAttribute(LED_MATRIX_HAT_CONTEXT_KEY, ledMatrix);  // make the RaspberryPiRgbLedMatrix object available to the servlet context
-
+        }
+        if (scrollQueue == null) {
+            restoreScrollQueueFromPersistence();
         }
     }
 
@@ -119,7 +122,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
 
     }
 
-    private void restoreFromPersistence() {
+    private void restoreLedMatrixFromPersistence() {
         Object object = null;
         try {
             object = ObjectRetriever.decodeObject(configFile);
@@ -128,7 +131,9 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
             Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, null, ex);
             ledMatrix = new RaspberryPiRgbLedMatrix();
         }
+    }
 
+    private void restoreScrollQueueFromPersistence() {
         Object second = null;
         try {
             second = ObjectRetriever.decodeObject(queueFile);
@@ -137,8 +142,11 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
             Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, null, ex);
             if (scrollQueue == null) {
                 scrollQueue = new ScrollQueue();
-                scrollQueue.start();        // set up the default image/animation paths
+                scrollQueue.start();
             }
         }
+        logger.log(Level.INFO, "Starting scrollqueue.");
+        scrollQueue.start();        // set up the default image/animation paths
+
     }
 }
