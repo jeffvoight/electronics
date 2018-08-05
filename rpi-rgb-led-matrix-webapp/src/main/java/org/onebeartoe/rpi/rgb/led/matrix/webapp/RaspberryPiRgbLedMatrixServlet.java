@@ -138,6 +138,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
     private void restoreScrollQueueFromPersistence() {
         Object restoreObject = null;
         scrollQueue = new ScrollQueue();
+        scrollQueue.setLedMatrix(ledMatrix);
 
         try {
             restoreObject = ObjectRetriever.decodeObject(queueFile);
