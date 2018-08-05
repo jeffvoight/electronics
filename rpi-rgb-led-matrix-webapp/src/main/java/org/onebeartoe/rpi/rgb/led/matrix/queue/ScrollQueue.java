@@ -109,16 +109,16 @@ public class ScrollQueue extends Thread implements Serializable {
     }
 
     public ScrollItem nextItem() {
+        ScrollItem returnItem;
         synchronized (lock) {
             if (items.isEmpty()) {
                 return null;
             }
-            //logger.log(Level.INFO, "Next!");
-            if (++this.currentIndex >= items.size() - 1) { // The end of the iterator is here. Start over.
-                //logger.log(Level.INFO, "Start over!");
+            returnItem=items.get(currentIndex);
+            if (++this.currentIndex >= items.size() ) { // The end of the iterator is here. Start over.
                 currentIndex = 0;
             }
-            return items.get(currentIndex);
+            return returnItem;
         }
     }
 
