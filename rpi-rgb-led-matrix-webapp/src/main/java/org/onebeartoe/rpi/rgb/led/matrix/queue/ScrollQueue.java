@@ -65,7 +65,7 @@ public class ScrollQueue extends Thread implements Serializable {
                     Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
                 }
 
-            } else if(item == null) {
+            } else if (item == null) {
                 try {
                     logger.log(Level.INFO, "Sleeping for 1 second.");
                     Thread.sleep(1000);
@@ -90,7 +90,9 @@ public class ScrollQueue extends Thread implements Serializable {
     }
 
     public void addItem(ScrollItem item) {
-        logger.log(Level.INFO, "Adding {0}", item.getText());
+        if (!item.getText().equals("")) {
+            logger.log(Level.INFO, "Adding {0}", item.getText());
+        }
         synchronized (lock) {
             items.add(item);
         }
