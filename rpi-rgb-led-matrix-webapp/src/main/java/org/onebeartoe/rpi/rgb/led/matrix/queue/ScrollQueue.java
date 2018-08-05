@@ -51,7 +51,7 @@ public class ScrollQueue extends Thread implements Serializable {
         while (running) {
             ScrollItem item = nextItem();
 
-            if (item != null && item.getActive().equals("on") && !item.getText().trim().equals("")) {
+            if (item != null && item.getActive().equals("checked") && !item.getText().trim().equals("")) {
                 currentItem = item;
 
                 try {

@@ -43,16 +43,23 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     {
         String[] texts=request.getParameterValues("text");
         String[] colors=request.getParameterValues("color");
-        String[] actives=request.getParameterValues("active");
-       
+        String[] inputActives=request.getParameterValues("active");
+        String[] actives=new String[texts.length];
+        for(int i=0;i<inputActives.length;i++){
+            String current=inputActives[i];
+            int currentInt=Integer.parseInt(current);
+            actives[currentInt]="checked";
+        }
+            
         String saveMessages;
         scrollQueue.setLedMatrix(ledMatrix);
         scrollQueue.clear();
         try {
             for(int i=0;i<texts.length;i++){
-                if(!texts[i].trim().equals("")){
-                    scrollQueue.addItem(new ScrollItem(texts[i], colors[i], actives[i].equals("on"), false));
-                }
+                String text=texts[i];
+                String color=colors[i];
+                String checked=(actives[i]!=null?actives[i]:"");
+                    scrollQueue.addItem(new ScrollItem(text, color, checked, false));                
             }
             saveMessages = "The scrolling text was updated.";
         }

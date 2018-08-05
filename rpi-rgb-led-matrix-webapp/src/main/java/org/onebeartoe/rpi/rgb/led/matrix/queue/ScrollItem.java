@@ -5,12 +5,6 @@
  */
 package org.onebeartoe.rpi.rgb.led.matrix.queue;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 /**
  *
@@ -21,17 +15,17 @@ public class ScrollItem implements Comparable {
     private String text;
     private String color;
     private boolean isCommand;
-    private boolean isActive;
+    private String isActive;
     private int priority;
     
     public ScrollItem(){
         this.text="";
-        this.color="#ff00ff";
+        this.color="#999999";
         this.isCommand=false;
-        this.isActive=false;
+        this.isActive="";
     }
     
-    public ScrollItem(String text, String color, boolean isActive, boolean isCommand){
+    public ScrollItem(String text, String color, String isActive, boolean isCommand){
         this.text=text;
         this.color=color;
         this.isActive=isActive;
@@ -39,11 +33,11 @@ public class ScrollItem implements Comparable {
     }
     
     public String getActive(){
-        return (isActive?"on":"off");
+        return isActive;
     }
     
     public void setActive(String isActive){
-        this.isActive=isActive.equals("on");
+        this.isActive=isActive;
     }
     
     public void setPriority(int priority){
