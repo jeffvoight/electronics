@@ -2,6 +2,7 @@ package org.onebeartoe.rpi.rgb.led.matrix.webapp;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -140,7 +141,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
 
         try {
             restoreObject = ObjectRetriever.decodeObject(queueFile);
-            scrollQueue.addAll((ScrollItem[]) restoreObject);
+            scrollQueue.addAll((List<ScrollItem>) restoreObject);
         } catch (Exception ex) {
             Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, "No ScrollQueue found. Starting fresh.");
             scrollQueue.getItems(); // side effect of filling the queue

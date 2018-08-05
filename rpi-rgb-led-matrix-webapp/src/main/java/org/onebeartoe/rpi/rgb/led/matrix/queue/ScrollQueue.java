@@ -81,11 +81,9 @@ public class ScrollQueue extends Thread implements Serializable {
         running = false;
     }
 
-    public void addAll(ScrollItem[] items) {
-        synchronized (lock) {
-            for (int i = 0; i < items.length; i++) {
-                this.items.add(items[i]);
-            }
+    public void addAll(List<ScrollItem> items) {
+        for(ScrollItem item: items){
+            addItem(item);
         }
     }
 
