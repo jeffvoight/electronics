@@ -62,7 +62,13 @@ public class ScrollQueue extends Thread implements Serializable {
                 } catch (IOException ex) {
                     Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (NullPointerException npe) {
-                    Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
+                    Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.", npe);
+                    try {
+                        logger.log(Level.INFO, "Sleeping for 1 second.");
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             } else if (item == null) {

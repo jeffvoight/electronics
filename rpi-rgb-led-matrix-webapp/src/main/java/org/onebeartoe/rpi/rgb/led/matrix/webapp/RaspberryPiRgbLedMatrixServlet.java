@@ -130,7 +130,7 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
             object = ObjectRetriever.decodeObject(configFile);
             ledMatrix = (RaspberryPiRgbLedMatrix) object;
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, "LED NOT INITIALIZED PROPERLY * * * * * * * * * * * * * * * * * *", ex);
             ledMatrix = new RaspberryPiRgbLedMatrix();
         }
     }
