@@ -31,7 +31,7 @@ public class ScrollQueue extends Thread implements Serializable {
     private RaspberryPiRgbLedMatrix ledMatrix;
     Logger logger = Logger.getLogger("ScrollQueue");
     private final Object lock = new Object();
-    private int currentIndex = 0;
+    private int currentIndex = -1;
 
     public ScrollQueue() {
     }
@@ -108,9 +108,9 @@ public class ScrollQueue extends Thread implements Serializable {
                 return null;
             }
             //logger.log(Level.INFO, "Next!");
-            if (this.currentIndex++ >= items.size() - 1) { // The end of the iterator is here. Start over.
-                logger.log(Level.INFO, "Start over!");
-                currentIndex = 0;
+            if (++this.currentIndex >= items.size() - 1) { // The end of the iterator is here. Start over.
+                //logger.log(Level.INFO, "Start over!");
+                currentIndex = -1;
             }
             return items.get(currentIndex);
         }
