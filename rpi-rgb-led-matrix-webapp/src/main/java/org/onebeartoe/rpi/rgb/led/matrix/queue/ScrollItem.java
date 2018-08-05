@@ -58,6 +58,10 @@ public class ScrollItem implements Comparable {
         this.text=text;
     }
     
+    public void setColor(String color){
+        this.color=color;
+    }
+    
     public String getColor(){
         if(color==null){
             return "#aa00ff";
