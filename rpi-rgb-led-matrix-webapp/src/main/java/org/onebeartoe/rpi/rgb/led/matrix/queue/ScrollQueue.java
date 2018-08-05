@@ -31,7 +31,7 @@ public class ScrollQueue extends Thread implements Serializable {
     private RaspberryPiRgbLedMatrix ledMatrix;
     Logger logger = Logger.getLogger("ScrollQueue");
     private final Object lock = new Object();
-    private int currentIndex = -1;
+    private int currentIndex = 0;
 
     public ScrollQueue() {
     }
