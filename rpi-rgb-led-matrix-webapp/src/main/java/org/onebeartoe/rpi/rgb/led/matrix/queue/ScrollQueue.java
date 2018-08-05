@@ -25,15 +25,15 @@ import org.onebeartoe.rpi.rgb.led.matrix.RaspberryPiRgbLedMatrix;
 public class ScrollQueue extends Thread implements Serializable {
 
     private final int MAX_ENTRIES = 50;
-    private final static List<ScrollItem> items = Collections.synchronizedList(new ArrayList<>());
+    private final static List<ScrollItem> items = new ArrayList<>(); //Collections.synchronizedList(new ArrayList<>());
     private ScrollItem currentItem;
-    private Iterator<ScrollItem> iterator;
     private boolean running = false;
     private RaspberryPiRgbLedMatrix ledMatrix;
     Logger logger = Logger.getLogger("ScrollQueue");
+    private final Object lock = new Object();
+    private int currentIndex = 0;
 
     public ScrollQueue() {
-        iterator = items.iterator();
     }
 
     public void setLedMatrix(RaspberryPiRgbLedMatrix ledMatrix) {
@@ -43,32 +43,28 @@ public class ScrollQueue extends Thread implements Serializable {
     public void clear() {
         logger.log(Level.INFO, "Clear");
         items.clear();
-        iterator = items.iterator();
+        currentIndex = 0;
     }
 
     public void run() {
         running = true;
         while (running) {
-            ScrollItem item;
+            ScrollItem item = nextItem();
 
-            synchronized (items) {
-                item = nextItem();
-            }
-
-            if (item != null) {
+            if (item != null && item.getActive().equals("on") && !item.getText().trim().equals("")) {
                 currentItem = item;
-                if (currentItem.getActive()) {
-                    try {
-                        logger.log(Level.INFO, "Current Item Processing {0}", currentItem.getText());
-                        ledMatrix.setColor(currentItem.getColor());
-                        ledMatrix.setScrollingText(currentItem.getText());
-                        ledMatrix.startScrollingTextCommand(currentItem.getText());
-                    } catch (IOException ex) {
-                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NullPointerException npe) {
-                        Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
-                    }
+
+                try {
+                    logger.log(Level.INFO, "Current Item Processing {0}", currentItem.getText());
+                    ledMatrix.setColor(currentItem.getColor());
+                    ledMatrix.setScrollingText(currentItem.getText());
+                    ledMatrix.startScrollingTextCommand(currentItem.getText());
+                } catch (IOException ex) {
+                    Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NullPointerException npe) {
+                    Logger.getLogger(ScrollQueue.class.getName()).log(Level.SEVERE, "LedMatrix not yet initialized.");
                 }
+
             } else {
                 try {
                     logger.log(Level.INFO, "Sleeping for 1 second.");
@@ -86,42 +82,51 @@ public class ScrollQueue extends Thread implements Serializable {
     }
 
     public void addAll(ScrollItem[] items) {
-        for (int i = 0; i < items.length; i++) {
-            this.items.add(items[i]);
+        synchronized (lock) {
+            for (int i = 0; i < items.length; i++) {
+                this.items.add(items[i]);
+            }
         }
     }
 
     public void addItem(ScrollItem item) {
         logger.log(Level.INFO, "Adding {0}", item.getText());
-        synchronized (items) {
+        synchronized (lock) {
             items.add(item);
-            iterator = items.iterator();
         }
     }
 
     public void removeItem(ScrollItem item) {
-        synchronized (items) {
+        synchronized (lock) {
             items.remove(item);
-            iterator = items.iterator();
         }
     }
 
     public ScrollItem nextItem() {
-        synchronized (items) {
+        synchronized (lock) {
             if (items.isEmpty()) {
                 return null;
             }
-            logger.log(Level.INFO, "Next!");
-            if (!iterator.hasNext()) { // The end of the iterator is here. Start over.
+            //logger.log(Level.INFO, "Next!");
+            if (this.currentIndex++ >= items.size() - 1) { // The end of the iterator is here. Start over.
                 logger.log(Level.INFO, "Start over!");
-                iterator = items.iterator();
+                currentIndex = 0;
             }
-            return iterator.next();
+            return items.get(currentIndex);
         }
     }
 
-    public ScrollItem[] getItems() {
-        ScrollItem[] returnItems = new ScrollItem[items.size()];
-        return items.toArray(returnItems);
+    public List<ScrollItem> getItems() {
+        synchronized (lock) {
+            int diff = 10 - items.size();
+            if (diff == 0) { // If we're at max, add one
+                items.add(new ScrollItem());
+            }
+            for (; diff > 0; diff--) {
+                items.add(new ScrollItem());
+            }
+            return items;
+        }
+        //return items.toArray(returnItems);
     }
 }

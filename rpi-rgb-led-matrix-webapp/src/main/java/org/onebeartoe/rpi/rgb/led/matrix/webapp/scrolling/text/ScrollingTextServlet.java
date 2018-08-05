@@ -3,8 +3,8 @@ package org.onebeartoe.rpi.rgb.led.matrix.webapp.scrolling.text;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.onebeartoe.io.ObjectSaver;
 import org.onebeartoe.rpi.rgb.led.matrix.queue.ScrollItem;
-import org.onebeartoe.rpi.rgb.led.matrix.queue.ScrollQueue;
 import org.onebeartoe.rpi.rgb.led.matrix.webapp.RaspberryPiRgbLedMatrixServlet;
 
 /**
@@ -70,7 +69,8 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
         // save the updated scrolling text configuration
         File outfile = RaspberryPiRgbLedMatrixServlet.configFile;
         ObjectSaver.encodeObject(ledMatrix, outfile);
-        ObjectSaver.encodeObject(scrollQueue.getItems(), RaspberryPiRgbLedMatrixServlet.queueFile);
+        List<ScrollItem> theList=scrollQueue.getItems();
+        ObjectSaver.encodeObject(theList, RaspberryPiRgbLedMatrixServlet.queueFile);
         
         request.setAttribute("responseMessages", saveMessages);
         doResponse(request, response);
@@ -79,7 +79,7 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
     private void doResponse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         request.setAttribute("ledMatrix", ledMatrix);
-        //request.setAttribute("scrollQueue", scrollQueue);
+        request.setAttribute("scrollItems", scrollQueue.getItems());
         ServletContext c = getServletContext();
         RequestDispatcher rd = c.getRequestDispatcher("/WEB-INF/jsp/scrolling-text/index.jsp");
         rd.forward(request, response);        

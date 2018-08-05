@@ -135,18 +135,17 @@ public abstract class RaspberryPiRgbLedMatrixServlet extends HttpServlet {
     }
 
     private void restoreScrollQueueFromPersistence() {
-        Object second = null;
-        try {
-            second = ObjectRetriever.decodeObject(queueFile);
-            scrollQueue = new ScrollQueue();
+        Object restoreObject = null;
+        scrollQueue = new ScrollQueue();
 
-            scrollQueue.addAll((ScrollItem[]) second);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, null, ex);
-            if (scrollQueue == null) {
-                scrollQueue.start();
-            }
+        try {
+            restoreObject = ObjectRetriever.decodeObject(queueFile);
+            scrollQueue.addAll((ScrollItem[]) restoreObject);
+        } catch (Exception ex) {
+            Logger.getLogger(RaspberryPiRgbLedMatrixServlet.class.getName()).log(Level.SEVERE, "No ScrollQueue found. Starting fresh.");
+            scrollQueue.getItems(); // side effect of filling the queue
         }
+        
         logger.log(Level.INFO, "Starting scrollqueue.");
         if (!scrollQueue.isAlive()) {
             scrollQueue.start();        // set up the default image/animation paths

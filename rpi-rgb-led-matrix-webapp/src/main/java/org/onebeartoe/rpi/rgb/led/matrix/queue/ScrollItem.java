@@ -18,14 +18,14 @@ import java.util.logging.Logger;
  */
 public class ScrollItem implements Comparable {
   
-    private final String text;
-    private final String color;
-    private final boolean isCommand;
+    private String text;
+    private String color;
+    private boolean isCommand;
     private boolean isActive;
     private int priority;
     
     public ScrollItem(){
-        this.text="None";
+        this.text="";
         this.color="#ff00ff";
         this.isCommand=false;
         this.isActive=false;
@@ -38,12 +38,12 @@ public class ScrollItem implements Comparable {
         this.isCommand=isCommand;
     }
     
-    public boolean getActive(){
-        return isActive;
+    public String getActive(){
+        return (isActive?"on":"off");
     }
     
-    public void setActive(boolean isActive){
-        this.isActive=isActive;
+    public void setActive(String isActive){
+        this.isActive=isActive.equals("on");
     }
     
     public void setPriority(int priority){
@@ -60,9 +60,13 @@ public class ScrollItem implements Comparable {
         return text;
     }
     
+    public void setText(String text){
+        this.text=text;
+    }
+    
     public String getColor(){
         if(color==null){
-            return "#000000";
+            return "#aa00ff";
         }
         return color;
     }
