@@ -110,7 +110,7 @@ public class ScrollQueue extends Thread implements Serializable {
             //logger.log(Level.INFO, "Next!");
             if (++this.currentIndex >= items.size() - 1) { // The end of the iterator is here. Start over.
                 //logger.log(Level.INFO, "Start over!");
-                currentIndex = -1;
+                currentIndex = 0;
             }
             return items.get(currentIndex);
         }
