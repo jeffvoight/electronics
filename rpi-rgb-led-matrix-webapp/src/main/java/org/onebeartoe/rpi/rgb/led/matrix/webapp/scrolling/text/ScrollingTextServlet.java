@@ -48,6 +48,9 @@ public class ScrollingTextServlet extends RaspberryPiRgbLedMatrixServlet
         for(int i=0;i<inputActives.length;i++){
             String current=inputActives[i];
             int currentInt=Integer.parseInt(current);
+            if(currentInt==99){
+                currentInt=texts.length-1;
+            }
             actives[currentInt]="checked";
         }
             
